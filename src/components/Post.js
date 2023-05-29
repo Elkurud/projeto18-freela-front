@@ -2,21 +2,24 @@ import { useContext } from "react"
 import styled from "styled-components"
 import UserContext from "../contexts/UseContext"
 import { Link } from "react-router-dom"
+import apiUser from "../apis/apiUser"
 
 
 export default function Post({ id, name, profilePicture, image, description }) {
 
-    const { setUser2Data} = useContext(UserContext)
+    const { userData, setUser2Data} = useContext(UserContext)
 
     return(
 
         <Card>
-            <Link onClick={() => {setUser2Data({id})}} to={`/user/${id}`} >
-                <Header>
+            <Header>
+                <Link onClick={() => {setUser2Data({id})}} to={`/user/${id}`} >
                     <Profile src={profilePicture} ></Profile>
                     {name}
-                </Header>
-            </Link>
+                </Link>
+                <Follow onClick={() => {apiUser.follow(userData.token, id)}}>Follow</Follow>
+             </Header>
+            
             <Image src={image}></Image>
             <Description>
                 <p><strong>{name}</strong></p>
@@ -47,6 +50,7 @@ const Header = styled.div`
     padding: 5px;
     display: flex;
     align-items: center;
+    justify-content: space-between;
 
 `
 
@@ -73,5 +77,18 @@ const Description = styled.div`
     display: flex;
     align-items: center;
     gap: 5px;
+
+`
+
+const Follow = styled.button`
+
+    height: 21px;
+    width: 50px;
+    background-color: #696969;
+    border: solid 1px #dbdbdb;
+    color: #dbdbdb;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
 
 `
